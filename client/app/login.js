@@ -1,5 +1,5 @@
 module.exports = {
-  view:function(){
+  view:() => {
     return m("h1","LOGIN TO DEDASH")
   }
 }
