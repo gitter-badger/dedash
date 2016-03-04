@@ -1,5 +1,6 @@
-var mithril = require('mithril');
-var login = require('./login');
-var register = require('./register');
-
-m.mount(document.body,login)
+var layout = require('./layout');
+m.route(document.body,"/",{
+  "/":m(layout,{body:require('./components/home')}),
+  "/login":m(layout,{body:require('./components/login')}),
+  "/register":m(layout,{body:require('./components/register')})
+})
