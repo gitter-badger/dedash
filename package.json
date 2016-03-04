@@ -1,0 +1,22 @@
+{
+  "name": "dedash",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oneted11/dedash.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Oneted11/dedash/issues"
+  },
+  "homepage": "https://github.com/Oneted11/dedash#readme",
+  "dependencies": {
+    "mithril": "^0.2.3"
+  }
+}
