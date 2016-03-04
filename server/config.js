@@ -1,6 +1,6 @@
 module.exports = {
-  production:true,
-  devAdapter:"localMYSQL",
+  production:false,
+  devAdapter:"memory",
   prodAdapter:"prodMongo",
   adapters:{
     memory: require("sails-memory"),
