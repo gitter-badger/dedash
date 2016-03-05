@@ -51,19 +51,80 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var layout = __webpack_require__(8);
+	var layout = __webpack_require__(2);
 	m.route(document.body, "/", {
-	  "/": m(layout, { body: __webpack_require__(9) }),
-	  "/login": m(layout, { body: __webpack_require__(6) }),
-	  "/register": m(layout, { body: __webpack_require__(7) })
+	  "/": m(layout, { body: __webpack_require__(3) }),
+	  "/login": m(layout, { body: __webpack_require__(5) }),
+	  "/register": m(layout, { body: __webpack_require__(6) }),
+	  "/content/:content_id": m(layout, { body: __webpack_require__(7) })
 	});
 
 /***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var navbarWrapper = __webpack_require__(4);
+
+	// wierd navbar srtucture api ;-)
+	var links = [{
+	  text: "register", url: "/register", direction: "right", drops: [{ text: "As student", url: "/student" }, { text: "As Admin", url: "/admin" }]
+	}, { text: "login", url: "/login", direction: "right" }, { text: "home", url: "/", direction: "right" }];
+
+	module.exports = {
+	  view: (ctrl, args) => {
+	    return m(".app", [m(navbarWrapper, {
+	      color: "blue",
+	      logo: {
+	        position: "left",
+	        text: "DEDASH"
+	      },
+	      links: links
+	    }), args.body ? args.body : m("div", "body here")]);
+	  }
+	};
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	/*
+	*peoples created content comes here placed in cards, cute ones
+	*then when clicked it goest to /content route where the content
+	*clicked is rendered
+	*/
+
+	module.exports = {
+	  view: (ctrl, args) => {
+	    return m(".app", [m("h1", "content area")]);
+	  }
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var navItem = __webpack_require__(8);
+
+	module.exports = {
+	  view: (ctrl, args) => {
+	    return m("nav", { class: args.color }, [m("div", { class: "nav-wrapper" }, [m("a", { class: "brand-logo " + args.logo.position }, args.logo.text), m("ul", { id: "nav-mobile", class: "hide-on-med-and-down" }, [
+	    //construct the nav items
+	    args.links.map(link => m(navItem, {
+	      text: link.text,
+	      url: link.url,
+	      direction: link.direction,
+	      drops: link.drops ? link.drops.map(drop => m(navItem, {
+	        text: drop.text,
+	        url: drop.url
+	      })) : console.log(" ")
+	    }))
+	    //awesomeness drop
+	    ])])]);
+	  }
+	};
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -71,7 +132,7 @@
 	};
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -79,23 +140,62 @@
 	};
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
-	module.exports = {
-	  view: (ctrl, args) => {
-	    return m(".app", [
-	    //any links that will be persistant accross all pages
-	    m("a", { href: "/", config: m.route }, "home"), m("a", { href: "/register", config: m.route }, "register"), m("a", { href: "/login", config: m.route }, "login"), args.body ? args.body : m("div", "body here")]);
-	  }
-	};
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
+	/*
+	*peoples created content comes here , you scroll down to show the content being viewed if its a long thing etc
+	*if its a video etc
+	*/
 
 	module.exports = {
 	  view: (ctrl, args) => m("h1", "home")
+	};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	var randrom = Math.random();
+	console.log(randrom);
+	module.exports = {
+	  view: (ctrl, args) => {
+	    args.drops ? console.log(args.drops) : console.log(" ");
+
+	    return m("span", [
+	    //render normal link
+	    m("li", {
+	      class: args.direction + " " + (m.route() === args.url ? "active" : " ")
+
+	    }, [m("a", {
+	      href: args.url,
+	      class: args.drops ? " dropdown-button" : " ",
+	      config: m.route,
+	      "data-activates": randrom
+	    }, args.text)]),
+
+	    //make drop links in case there is a drop in the json
+	    args.drops ? m("ul", {
+	      class: "dropdown-content",
+	      id: randrom,
+	      config: function () {
+	        $('.dropdown-button').dropdown({
+	          inDuration: 300,
+	          outDuration: 225,
+	          constrain_width: false, // Does not change width of dropdown to that of the activator
+	          hover: true, // Activate on hover
+	          gutter: 0, // Spacing from edge
+	          belowOrigin: true, // Displays dropdown below the button
+	          alignment: 'left' // Displays dropdown with edge aligned to the left of button
+	        });
+	      }
+	    }, [args.drops.map(() => m("li", {
+	      class: m.route() === args.url ? "active" : " "
+	    }, [m("a", {
+	      href: args.url,
+	      config: m.route
+	    }, args.text)]))]) : console.log("no drops for this one")]);
+	  }
 	};
 
 /***/ }

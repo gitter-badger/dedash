@@ -1,6 +1,7 @@
-var layout = require('./layout');
+var layout = require('./pages/layout');
 m.route(document.body,"/",{
-  "/":m(layout,{body:require('./components/home')}),
-  "/login":m(layout,{body:require('./components/login')}),
-  "/register":m(layout,{body:require('./components/register')})
+  "/":m(layout,{body:require('./pages/home')}),
+  "/login":m(layout,{body:require('./pages/login')}),
+  "/register":m(layout,{body:require('./pages/register')}),
+  "/content/:content_id":m(layout,{body:require('./pages/content')})
 })
